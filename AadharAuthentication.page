@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link rel="stylesheet" href="{!URLFOR($Resource.DigiVoteCommon, '/styles/app/Authentication.css')}"/> 
+    <link rel="stylesheet" href="{!URLFOR($Resource.DigiVoteCommon, '/styles/app/Common.css')}"/> 
 </head>
 <apex:form >
 <div class="digivote-half digivote-teal digivote-container" style="height:700px">
@@ -13,16 +13,19 @@
           <label>Aadhar</label>
           <apex:inputText styleclass="digivote-input" style="width:100%;" id="UID" value="{!UID}"/>
         </div>
-        <button type="submit" class="digivote-button digivote-teal digivote-right">Verify</button>
+        <button type="submit" class="digivote-button digivote-teal digivote-right">Generate OTP</button>
         
-
         <div class="digivote-section">
-          <label>OTP</label>
+          <label>OTP / Fingerprint</label>
            <apex:inputText styleclass="digivote-input" style="width:100%;" id="OTP" value="{!OTP}"/>
         </div>
-        <button type="submit" class="digivote-button digivote-teal digivote-right">Validate</button>
+        <input type="button" class="digivote-button digivote-teal digivote-right" 
+        style="background-color:#ffffff !important; color: black !important;"
+        onclick="validateAadhar();" value="Validate"></input>
      </div>
   </div>
+   <apex:actionFunction Name="validateAadhar" action="{!postAadharValidation}">
+  </apex:actionFunction>
 </apex:form>
 
     
