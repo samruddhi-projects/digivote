@@ -1,0 +1,10 @@
+public class ElectionConstants{
+
+    public static FINAL String ELECTION_NOT_STARTED = 'ERROR_ELECTION_NOT_STARTED';
+    public static FINAL String VOTING_NOT_START_ERROR = 'ERROR_VOTING_NOT_STARTED';
+    public static FINAL String VOTING_SESSION_START_ERROR = 'ERROR_VOTING_SLOT_NOT_STARTED';
+    public static FINAL String VOTING_NOT_STARTED = 'ERROR_VOTING_NOT_STARTED';
+    
+
+
+}

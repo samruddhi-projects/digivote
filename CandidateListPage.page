@@ -1,0 +1,89 @@
+<apex:page controller="VoteController"  showHeader="false" standardStylesheets="false" cache="true">
+ 
+<html lang="en">
+
+<style>
+.c-tile{
+    margin-bottom: 5px !important;
+    background-color: #e0e3e5 !important;
+    border: 1px solid transparent !important;
+
+}
+.div:hover{ 
+    background-color: yellow;
+}
+.c-img {
+    height: 30px;
+    position: absolute;
+    padding: 2px;
+    height : 50px;
+    
+}   
+
+
+</style>
+
+<head>
+
+
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+</head>
+
+
+<script type="text/javascript">  
+        var identification ; 
+        
+        debugger;
+
+</script>
+<apex:form >
+<body>
+ 
+<div class="container">
+  <h2><b>Candidate list</b></h2>
+ <apex:repeat value="{!propertyBeanList}" var="record">
+        <div class="panel panel-default c-tile">
+            <div class= "c-img"><apex:image url="{!record.imgUrl}" style="height: 48px;width: 50px;"/> </div>
+            <div style="padding-left: 100px;" class="panel-body">
+                <div >{!record.name}</div>
+                <div style="float:right" >{!record.key}</div>
+            </div>
+        </div>
+  </apex:repeat>
+  
+
+  
+  <div>
+        <apex:inputSecret label="Selected Candidate" id="secret" styleClass="form-control input-md"/>
+        <div style="height: 3px;"></div >
+        <button type="button" class="btn btn-success"  onclick = "doVotes();"  style="width: 40%; margin-right: 30%;margin-left: 30%;">Submit</button>
+  </div>
+  
+  <apex:actionFunction Name="storeDB" action="{!submitVote}"  onComplete="" reRender="" >
+        <apex:param name="identification" value="" assignTo="{!candidateId}" /> 
+  </apex:actionFunction>
+
+
+  
+</div>
+</body>
+</apex:form>
+
+<script type="text/javascript">
+
+
+debugger;
+function doVotes(){
+    debugger;
+   storeDB(identification);
+}
+
+</script>
+</html>
+
+</apex:page>

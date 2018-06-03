@@ -1,0 +1,19 @@
+<apex:page showHeader="false">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="{!URLFOR($Resource.DigiVoteCommon, 'Common.css')}"/>
+</head>
+<div class="digivote-half digivote-teal digivote-container" style="height:700px">
+	<div class="jumbotron text-center success">
+	    <img src="/img/msg_icons/confirm32.png" title="/img/msg_icons/confirm32.png" height="40" width="40"/>
+	    <br/>
+	    <br/>
+	    
+	    <p class="digivote-msg-container">Your vote has been submitted. 
+	    </p>
+	</div> 
+</div> 
+    
+</apex:page>

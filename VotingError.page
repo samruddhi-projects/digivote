@@ -1,0 +1,39 @@
+<apex:page showHeader="false">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="{!URLFOR($Resource.DigiVoteCommon, '/styles/app/Common.css')}"/> 
+</head>
+
+<div class="digivote-half digivote-teal digivote-container" style="height:700px">
+    <div class="digivote-padding-64 digivote-padding-large">
+	      <h1>Error</h1>
+	      <div class="text-center">
+	
+		    <apex:outputPanel rendered="{!CONTAINS($CurrentPage.parameters.errorId,'SLOT_ENDED')}">
+		          <p class="digivote-msg-container">
+		          Sorry, your time slot has ended. If you could not vote during this slot, please login again to generate one more slot. 
+		          
+		          </p>
+		    </apex:outputPanel>
+		    
+		    <apex:outputPanel rendered="{!CONTAINS($CurrentPage.parameters.errorId,'SLOT_NOT_STARTED')}">
+		          <p class="digivote-msg-container">
+		          Your slot has not started yet. Please wait for your time slot for voting. </p>
+		    </apex:outputPanel>
+		    
+		    <apex:outputPanel rendered="{!CONTAINS($CurrentPage.parameters.errorId,'SINGLE_VOTE')}">
+		          <p class="digivote-msg-container">
+		          You have already submitted your vote for this election. </p>
+		    </apex:outputPanel>
+		    
+		    <apex:outputPanel rendered="{!CONTAINS($CurrentPage.parameters.errorId,'INVALID_USER')}">
+		          <p class="digivote-msg-container">
+		          You are not eligible for online voting. </p>
+		    </apex:outputPanel>
+		</div>  
+	</div>
+</div>
+    
+</apex:page>

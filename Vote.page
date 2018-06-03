@@ -1,0 +1,23 @@
+<apex:page showHeader="false" controller="VoteController">
+<head>
+    <link rel="stylesheet" href="{!URLFOR($Resource.DigiVoteCommon, '/styles/app/Timer.css')}"/> 
+</head>
+
+<h1>Congratulations</h1>
+  This is your new Page <br/><br/>
+<div id="clockdiv" class="clockdiv">
+    <span id="timer"></span>
+</div>
+ 
+
+<input type="button" onclick="submitVoteJS()" value="Vote"/>
+<script>
+	_RemotingActions={}
+  	_RemotingActions.initData = '{!$RemoteAction.VoteController.initVotingData}';
+	_RemotingActions.TimeoutDuration = {!expirationTimer};
+
+  </script>      
+  <script type="text/javascript" src="{!URLFOR($Resource.DigiVoteCommon, '/scripts/app/Timer.js')}"></script> 
+  <script type="text/javascript" src="{!URLFOR($Resource.DigiVoteCommon, '/scripts/app/Vote.js')}"></script> 
+ 
+</apex:page>
