@@ -7,8 +7,9 @@ public with sharing class VoteController{
      public string candidatesLists{get; set;}
      public map<String,Object> candidatesMap{get; set;}
      public Id candidateId {get; set;}
-     public transient Id UID {get; set;}
-     public transient Id OTP {get; set;}
+     public String inputValue {get; set;}
+     public String UID {get; set;}
+     public String OTP {get; set;}
     
      private class propertyBean{
         public String recordId {get; set;}
@@ -23,10 +24,10 @@ public with sharing class VoteController{
         expirationTimer = helper.getExpirationTimer();
         system.debug(LoggingLevel.DEBUG, 'VoteController-expirationTimer:'+expirationTimer);
         propertyBeanList= candidatesMap();
-        candidatesLists= JSON.serialize(propertyBeanList);
+        
     }
     
-    private List<map<String,Object>> candidatesList(){ 
+   /* private List<map<String,Object>> candidatesList(){ 
         Candidates = helper.getCurrentWardCandidates();
         List<map<String,Object>> userList = new List<map<string,object>>();
         for(Candidate__c userRec:Candidates ){
@@ -46,7 +47,7 @@ public with sharing class VoteController{
         }
         return userList;
         
-     }
+     }*/
      
      
      
@@ -61,7 +62,7 @@ public with sharing class VoteController{
             pBean.recordId = userRec.Id;
             pBean.imgUrl = userRec.Party__r.Party_Icons__c;
             pBean.name= userRec.Name;
-           	pBean.key = secretId;
+            pBean.key = secretId;
            userList.add(pBean);
 
         }
@@ -77,7 +78,19 @@ public with sharing class VoteController{
             return new PageReference('/apex/VotingError?errorId='+validationErrorId);
         }
         else{
+            return new PageReference('/apex/AadharAuthentication');
+        }
+    }
+    
+    public pageReference postAadharValidation(){
+        VotingHelper helper = new VotingHelper();
+        if(validateAadharSandbox(UID,OTP)){
+            UID = null;
+            OTP=null;
             return new PageReference('/apex/CandidateListPage');
+        }
+        else{
+            return new PageReference('/apex/VotingError?errorId=INVALID_USER');
         }
     }
     
@@ -93,8 +106,23 @@ public with sharing class VoteController{
     
     public PageReference submitVote(){
         //before updating in DB cross check if the time is still valid
+        
+        Id recId;
+        boolean flag = false;
+        
+        for(propertyBean rec: propertyBeanList){
+          if(rec.key == inputValue){
+              recId = rec.recordId ;
+              flag = true;
+              break;
+          }
+          
+        }
+        if(!flag)
+            return new PageReference('/apex/VotingError?errorId='+VoteConstants.WRONGKEY);
+            
         VotingHelper helper = new VotingHelper();
-        if(helper.submitVote(candidateId)){
+        if(helper.submitVote(recId)){
             return new PageReference('/apex/VotingSuccess');
         }
         else{
@@ -102,4 +130,26 @@ public with sharing class VoteController{
         }
     }
 
+
+	public Boolean validateAadharSandbox(String uid, String otp) {
+        HttpRequest request = new HttpRequest();
+        request.setEndpoint('https://ext.digio.in:1200/test/otpkyc');
+        request.setMethod('POST');
+        request.setHeader('Content-Type', 'application/json');
+        request.setHeader('Authorization', 'No');
+        // Set the body as a JSON object
+        request.setBody('{"aadhaar_id": "'+UID+'","otp": "'+OTP+'","txn_id": "547039586626"}');
+        System.debug('**** Request:'+request);
+        Http http = new Http();
+        HttpResponse response = http.send(request);
+        System.debug('**** Response:'+response.getBody());
+        // Parse the JSON response
+        if(response.getBody().contains('"status": true,')){
+            System.debug('**** AADHAR AUTHENTICATED!');
+            return true;
+        }
+        
+        return false;
+
+    }
 }
