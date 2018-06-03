@@ -19,10 +19,10 @@ public with sharing class VotingHelper{
              DateTime slotStartTime = VoterInfo.Slot__c;
              DateTime slotEndTime = getEndTimeForSlot();
             
-            /*if(hasVoted()){
+            if(hasVoted()){
             	return VoteConstants.ALREADY_VOTED;
             }
-            else*/ if(system.now() < slotStartTime ){
+            else if(system.now() < slotStartTime ){
                 return VoteConstants.SLOT_NOT_STARTED;
             }
             else if(system.now() > slotEndTime ){
