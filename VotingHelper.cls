@@ -13,7 +13,6 @@ public with sharing class VotingHelper{
 	} 	
     
     public String preVotingValidation(Id userId){
-        //TODO check for voting enabled
         
        if(VoterInfo!=null && VoterInfo.isActive && VoterInfo.Slot__c!=null){
              DateTime slotStartTime = VoterInfo.Slot__c;
@@ -27,10 +26,7 @@ public with sharing class VotingHelper{
             }
             else if(system.now() > slotEndTime ){
                 return VoteConstants.SLOT_ENDED;
-            }/*
-            else if(system.now() > slotEndTime ){
-                return VoteConstants.SLOT_NOT_STARTED;
-            }*/
+            }
         }
         else{
             return VoteConstants.INVALID_USER;
@@ -52,6 +48,7 @@ public with sharing class VotingHelper{
     	system.debug(LoggingLevel.DEBUG, 'VotingHelper.getCurrentWardCandidates-candidates:'+candidates);
     	return candidates;
     }
+	
     public Decimal getExpirationTimer(){
     	DateTime endTime = getEndTimeForSlot();
     	Long difference = endTime.getTime()-system.now().getTime();
@@ -138,10 +135,10 @@ public with sharing class VotingHelper{
 	private void updateCandidateCountAnonymous(Id candidateId){
 		Vote__c addedVote = new Vote__c();
 		//update all audit trail fields to system user to avoid identifying which voter cast the vote for the candidate
-        addedVote.Candidate__c = candidateId;
-        addedVote.CreatedById = VoteConstants.SYSTEM_USER;
-        addedVote.LastModifiedById = VoteConstants.SYSTEM_USER;
-        insert addedVote;
+		addedVote.Candidate__c = candidateId;
+		addedVote.CreatedById = VoteConstants.SYSTEM_USER;
+		addedVote.LastModifiedById = VoteConstants.SYSTEM_USER;
+		insert addedVote;
 	}
 	 
 	
